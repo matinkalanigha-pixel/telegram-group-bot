@@ -1,68 +1,135 @@
-# telegram-group-bot
-🤖 A powerful Telegram group management bot built with Python. Features include moderation, warnings, bans, mutes, content filters, custom commands, welcome messages, group rules, multilingual support, and an interactive admin menu. Built with python-telegram-bot and SQLite.
-# 🤖 Telegram Group Management Bot
+# بات مدیریت گروه تلگرام
 
-A powerful and customizable Telegram group management bot built with Python and `python-telegram-bot`.
+بات کاملی برای مدیریت گروه که **همه‌ی متن‌های اکشن‌ها قابل شخصی‌سازی توسط ادمین** هستند
+(مثلاً وقتی کسی کیک می‌شود، خودت متنی که نمایش داده می‌شود را می‌نویسی).
 
-This bot is designed to make Telegram group administration easier by providing moderation tools, customizable messages, multilingual support, content filters, warnings, locks, and an interactive admin menu.
+## قابلیت‌ها
+- 🖲 **منوی شیشه‌ای کامل** (`/menu`) — تنظیم همه‌چیز فقط با زدن دکمه، بدون حفظ دستورات؛
+  هم در گروه، هم در پیوی خود بات (با دکمه‌ی «ادامه در پیوی» یا با زدن مستقیم `/menu` در پیوی)
+- ❓ **راهنمای داخل منو** — یک دکمه‌ی راهنما که توضیح می‌دهد هر بخش چطور کار می‌کند، و هنگام
+  ویرایش هر متن، معنی دقیق هر پلیس‌هولدر (نه فقط اسمش) نشان داده می‌شود
+- ⚡ **میانبر دستورات** — به‌جای `/kick` و بقیه‌ی دستورات انگلیسی، برای هر اکشن (اخراج، بن،
+  سایلنت، اخطار و...) یک کلمه‌ی دلخواه فارسی تعریف کن؛ با ریپلای‌کردن روی پیام فرد و نوشتن
+  همان کلمه، دقیقاً همان کار انجام می‌شود
+- 🌐 **پشتیبانی چندزبانه** (فارسی و انگلیسی، به‌راحتی قابل افزودن زبان جدید) — هر گروه زبان مستقل خودش را دارد
+- کیک، بن، آنبن، سایلنت (میوت با مدت‌زمان)، آنمیوت — با ریپلای، آیدی عددی یا یوزرنیم عمومی (`@user`)
+- سیستم اخطار با سقف قابل‌تنظیم و حذف خودکار
+- **متن هر اکشن کاملاً قابل تغییر است** با پلیس‌هولدرهایی مثل `{user}` `{admin}` `{reason}` `{group}`
+- ساخت **دستورات کاملاً دلخواه** توسط ادمین (مثل `/setcmd` برای ساختن `/rules`, `/telegram`, هر چیزی که بخواهی)
+- فیلتر کلمات: با گفتن یک کلمه، بات خودکار جواب می‌دهد
+- قفل محتوا: لینک، عکس، ویدیو، استیکر، گیف، فوروارد، ویس، فایل
+- نوت‌ها: ذخیره متن‌های پرتکرار و فراخوانی با `#نام`
+- پیام خوش‌آمدگویی و خداحافظی قابل شخصی‌سازی
+- پین/آنپین پیام
+- قوانین گروه (`/rules`)
 
-## ✨ Features
-
-* 🛡️ Advanced group moderation
-* 👢 Kick, ban, unban, mute and unmute members
-* ⚠️ Warning system with configurable limits
-* 🔒 Content locks for links, photos, videos, stickers, GIFs, forwards, voice messages and documents
-* 📝 Custom commands and responses
-* 🎯 Keyword-based filters
-* 👋 Custom welcome and goodbye messages
-* 📌 Pin and unpin messages
-* 📖 Group rules management
-* 🌍 Persian and English language support
-* 🎛️ Interactive inline admin menu
-* 💾 SQLite database for storing group settings
-* ⚙️ Environment-based configuration using `.env`
-* 🧩 Modular and easy-to-extend code structure
-
-## 🛠️ Technologies
-
-* Python
-* python-telegram-bot
-* SQLite
-* python-dotenv
-
-## 🚀 Installation
-
-Clone the repository and install the required dependencies:
+## نصب
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd YOUR_REPOSITORY
+cd telegram_group_bot
+python3 -m venv venv
+source venv/bin/activate   # ویندوز: venv\Scripts\activate
 pip install -r requirements.txt
+cp .env.example .env
 ```
 
-Create a `.env` file and add your Telegram bot token:
+### گرفتن توکن بات
+1. به [@BotFather](https://t.me/BotFather) در تلگرام پیام بده.
+2. دستور `/newbot` را بزن و مراحل را طی کن.
+3. توکنی که می‌دهد را داخل فایل `.env` جلوی `BOT_TOKEN=` قرار بده.
 
-```env
-BOT_TOKEN=YOUR_BOT_TOKEN
-DB_PATH=bot_data.db
-```
-
-Then run the bot:
-
+### اجرا
 ```bash
-python3 bot.py
+python bot.py
 ```
 
-## 🔐 Security
+اگر موقع اجرا خطایی بگیری که بات اصلاً بالا نمی‌آید (مثلاً `ImportError`)، معمولاً یعنی
+یکی از فایل‌های `handlers/` با بقیه هماهنگ نیست (نسخه‌ی قدیمی یک فایل کنار نسخه‌ی جدید
+فایل دیگر). همیشه همه‌ی فایل‌های داده‌شده را با هم و کامل جایگزین کن، نه تکی.
 
-Never publish your real bot token or other sensitive information on GitHub.
+### اضافه کردن به گروه
+1. بات را با یوزرنیمش به گروه اضافه کن.
+2. حتماً از بخش «Administrators» گروه، بات را **ادمین** کن و دسترسی‌های زیر را بده:
+   - Delete messages
+   - Ban users
+   - Pin messages
+   - Restrict members (برای mute)
 
-The `.env` file should remain private and should be excluded using `.gitignore`.
+## منوی شیشه‌ای (`/menu`)
 
-## 📌 Project Status
+کافی‌ست در گروه یا در پیوی خود بات دستور `/menu` را بزنی. یک منوی دکمه‌ای باز می‌شود:
 
-This project is actively developed and can be extended with additional moderation tools, admin features, custom commands and other Telegram group management capabilities.
+- **💬 متن پیام‌ها** → روی هر پیام (کیک، بن، خوش‌آمد، ...) بزن؛ متن فعلی و معنی دقیق هر
+  پلیس‌هولدر نشانت داده می‌شود، متن جدید را همان‌جا بفرست تا ذخیره شود.
+- **🔒 قفل‌ها** → با یک تپ لینک/عکس/ویدیو/استیکر/گیف/فوروارد/ویس/فایل را قفل یا باز کن.
+- **👋 خوش‌آمد/خداحافظی** → با یک تپ فعال/غیرفعال کن.
+- **🗒 نوت‌ها / 🔍 فیلترها / 🛠 دستورات سفارشی** → لیست، افزودن با یک پیام «نام محتوا»، حذف با یک تپ.
+- **⚡ میانبرهای دستورات** → برای هر اکشن مدیریتی یک یا چند کلمه‌ی دلخواه فارسی تعریف کن.
+- **⚠️ سقف اخطار** → با دکمه‌های + و - سقف اخطار قبل از حذف خودکار را تغییر بده.
+- **🌐 زبان** → زبان بات را برای همان گروه عوض کن (فارسی/انگلیسی).
+- **❓ راهنما** → توضیح کامل هر بخش، داخل خودِ منو.
 
----
+فقط ادمین‌های گروه می‌توانند از دکمه‌های منو استفاده کنند؛ اگر کاربر عادی بزند
+پیام هشدار می‌بیند و چیزی تغییر نمی‌کند.
 
-Made with ❤️ and Python.
+### مدیریت از پیوی (بدون شلوغی توی گروه)
+زیر منوی گروه یک دکمه‌ی «🔐 ادامه در پیوی» هست که با یک تپ، همان پنل را در پیوی خودِ بات
+باز می‌کند (از طریق دیپ‌لینک `t.me/<bot>?start=menu_<chat_id>`). همچنین کافی‌ست مستقیم در
+پیوی بات `/menu` را بزنی؛ اگر در چند گروه ادمین باشی، لیستشان را برای انتخاب نشانت می‌دهد.
+
+### افزودن زبان جدید
+داخل فایل `locales.py` یک دیکشنری جدید (مثلاً `"ar"` برای عربی) به `LANGUAGES` اضافه کن
+و همه کلیدهای موجود در `"fa"` را با ترجمه‌ی خودشان کامل کن؛ زبان جدید خودکار در
+منوی 🌐 زبان ظاهر می‌شود.
+
+## میانبر دستورات (به‌جای /kick و بقیه)
+
+از `/menu` → «⚡ میانبرهای دستورات» یک یا چند کلمه‌ی دلخواه (فارسی یا هر زبانی) برای هرکدام
+از این اکشن‌ها تعریف کن: اخراج، بن، آنبن، سایلنت، آنمیوت، اخطار، حذف‌اخطار، پین، آنپین.
+بعدش کافی‌ست ادمین با **ریپلای روی پیام کاربر** همان کلمه را بنویسد؛ دقیقاً همان چک‌های
+ادمین‌بودن و همان متن خروجیِ دستور اصلی اجرا می‌شود — دیگر نیازی به یادگرفتن `/kick` نیست.
+
+## نحوه شخصی‌سازی متن‌ها با دستور (روش جایگزین منو)
+
+هر ادمینی می‌تواند با این دستورات، متن اکشن‌ها را عوض کند:
+
+```
+/setkickmsg {user} با لگد رفت بیرون! دلیل: {reason} 😂
+/setbanmsg 🔨 {user} برای همیشه بن شد. دلیل: {reason}
+/setmutemsg {user} تا اطلاع ثانوی خفه شد 🤐 مدت: {duration}
+/setwarnmsg ⚠️ {user} یک اخطار گرفت ({warn_count}/{max_warns})
+/setwelcomemsg سلام {user} خوش اومدی به {group} 🎉
+```
+
+پلیس‌هولدرهای قابل استفاده:
+| پلیس‌هولدر | معنی |
+|---|---|
+| `{user}` | منشن کاربر هدف |
+| `{admin}` | منشن ادمینی که دستور زده |
+| `{reason}` | دلیل (اگر وارد شده باشد) |
+| `{group}` | نام گروه |
+| `{duration}` | فقط در mute |
+| `{warn_count}` `{max_warns}` | فقط در warn |
+
+برای دیدن همه‌ی متن‌های فعلی: `/showmessages`
+برای بازگشت یک متن به پیش‌فرض: `/resetmsg kick_msg`
+
+## ساخت دستور کاملاً دلخواه
+
+اگر می‌خواهی خودت یک دستور جدید بسازی (نه فقط متن یک اکشن آماده را عوض کنی):
+
+```
+/setcmd rules قوانین گروه: بدون توهین، بدون تبلیغ، احترام به همه 🌸
+```
+
+از این به بعد هر کس `/rules` بزند این متن نمایش داده می‌شود. با `/delcmd rules` هم حذفش می‌کنی.
+لیست همه دستورات سفارشی: `/commands`
+
+## نکته درباره دیتابیس
+تنظیمات هر گروه در فایل `bot_data.db` (SQLite) ذخیره می‌شود و بین ری‌استارت‌های بات باقی می‌ماند.
+اگر می‌خواهی بات را روی سرور دائم اجرا کنی، پیشنهاد می‌شود از `systemd` یا `pm2`/`screen`/`tmux` استفاده کنی
+تا پروسه بعد از قطع اتصال SSH ادامه پیدا کند.
+
+## راهنمای کامل دستورات
+داخل خود بات دستور `/help` را بزن.
+
